@@ -1,6 +1,6 @@
 package com.pawan.quizcomposeapp.models
 
-data class QuizListItems(
+data class QuizItemsUiState(
     val answers: Answers,
     val category: String,
     val correct_answer: Any,

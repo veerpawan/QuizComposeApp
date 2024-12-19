@@ -20,11 +20,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.semantics.SemanticsProperties.Text
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,6 +35,8 @@ import androidx.navigation.navArgument
 import com.pawan.quizcomposeapp.api.QuizApi
 import com.pawan.quizcomposeapp.screens.QuizListScreen
 import com.pawan.quizcomposeapp.screens.QuizzesScreen
+import com.pawan.quizcomposeapp.screens.onboarding.OnboardingScreen
+import com.pawan.quizcomposeapp.screens.onboarding.OnboardingUtils
 import com.pawan.quizcomposeapp.ui.theme.QuizComposeAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
@@ -42,13 +46,26 @@ import javax.inject.Inject
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val onboardingUtils by lazy { OnboardingUtils(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        installSplashScreen()
+        //enableEdgeToEdge()
 
         setContent {
             QuizComposeAppTheme {
 
+
+
+
+                /*if (onboardingUtils.isOnboardingCompleted()) {
+                    ShowHomeScreen()
+                } else {
+                    ShowOnboardingScreen(onboardingUtils)
+
+                }
+*/
                 Scaffold(
                     topBar = {
 
@@ -72,19 +89,44 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                //App()
-                //QuizListScreen()
-                //QuizzesScreen()
             }
         }
     }
 }
 
+
+
+@Composable
+private fun ShowOnboardingScreen(onboardingUtils: OnboardingUtils) {
+    val scope = rememberCoroutineScope()
+
+
+    OnboardingScreen {
+        onboardingUtils.setOnboardingCompleted()
+        scope.launch {
+
+
+        }
+    }
+
+
+}
+
+
+
 @Composable
 fun App() {
 
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "quizzes") {
+    NavHost(navController = navController, startDestination = "OnBoardingScreen") {
+
+
+        composable(route = "OnBoardingScreen"){
+            OnboardingScreen{
+                navController.navigate("quizzes")
+            }
+        }
+
         composable(route = "quizzes") {
 
             QuizzesScreen {
@@ -100,6 +142,7 @@ fun App() {
             QuizListScreen()
 
         }
+
     }
 
 

@@ -1,8 +1,8 @@
 package com.pawan.quizcomposeapp.repository
 
-import com.pawan.quizcomposeapp.models.QuizList
+import com.pawan.quizcomposeapp.models.QuizUiState
 import com.pawan.quizcomposeapp.api.QuizApi
-import com.pawan.quizcomposeapp.models.QuizListItems
+import com.pawan.quizcomposeapp.models.QuizItemsUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -10,13 +10,13 @@ import javax.inject.Inject
 class QuizRepository @Inject constructor(private val quizApi: QuizApi) {
 
 
-    private val _quizzes = MutableStateFlow<List<QuizList>>(emptyList())
-    val quizzes: StateFlow<List<QuizList>>
+    private val _quizzes = MutableStateFlow<List<QuizUiState>>(emptyList())
+    val quizzes: StateFlow<List<QuizUiState>>
         get() = _quizzes
 
 
-    private val _quizItem = MutableStateFlow<List<QuizListItems>>(emptyList())
-    val quizItem: StateFlow<List<QuizListItems>>
+    private val _quizItem = MutableStateFlow<List<QuizItemsUiState>>(emptyList())
+    val quizItem: StateFlow<List<QuizItemsUiState>>
         get() = _quizItem
 
 

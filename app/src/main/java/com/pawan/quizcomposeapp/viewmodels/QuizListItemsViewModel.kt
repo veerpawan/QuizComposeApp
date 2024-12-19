@@ -3,7 +3,7 @@ package com.pawan.quizcomposeapp.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pawan.quizcomposeapp.models.QuizListItems
+import com.pawan.quizcomposeapp.models.QuizItemsUiState
 import com.pawan.quizcomposeapp.repository.QuizRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +17,7 @@ class QuizListItemsViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val quizListItems: StateFlow<List<QuizListItems>>
+    val quizItemsUiState: StateFlow<List<QuizItemsUiState>>
         get() = repository.quizItem
 
     init {

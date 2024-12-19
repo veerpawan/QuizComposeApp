@@ -27,8 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.pawan.quizcomposeapp.models.QuizList
+import com.pawan.quizcomposeapp.models.QuizUiState
 import com.pawan.quizcomposeapp.viewmodels.QuizzesViewModel
 import com.pawan.quizcomposeapp.R
 
@@ -37,10 +36,10 @@ import com.pawan.quizcomposeapp.R
 fun QuizzesScreen(onClick: (category: String) -> Unit) {
 
     val quizzesViewModel: QuizzesViewModel = hiltViewModel()
-    val quizList: State<List<QuizList>> = quizzesViewModel.quizList.collectAsState()
+    val quizUiState: State<List<QuizUiState>> = quizzesViewModel.quizUiState.collectAsState()
 
 
-    if (quizList.value.isEmpty()) {
+    if (quizUiState.value.isEmpty()) {
         Box(modifier = Modifier.fillMaxWidth(1f), contentAlignment = Alignment.Center) {
 
             Text(
@@ -55,8 +54,8 @@ fun QuizzesScreen(onClick: (category: String) -> Unit) {
             contentPadding = PaddingValues(8.dp),
             verticalArrangement = Arrangement.SpaceAround,
         ) {
-            items(quizList.value) {
-                Quizzes(quizList = it, onClick)
+            items(quizUiState.value) {
+                Quizzes(quizUiState = it, onClick)
             }
         }
     }
@@ -65,12 +64,12 @@ fun QuizzesScreen(onClick: (category: String) -> Unit) {
 
 
 @Composable
-fun Quizzes(quizList: QuizList, onClick: (quizList: String) -> Unit) {
+fun Quizzes(quizUiState: QuizUiState, onClick: (quizList: String) -> Unit) {
     Box(
         modifier = Modifier
             .padding(4.dp)
             .clickable {
-                onClick(quizList.name.toString())
+                onClick(quizUiState.name.toString())
             }
             .size(160.dp)
             .clip(RoundedCornerShape(8.dp))
@@ -81,7 +80,7 @@ fun Quizzes(quizList: QuizList, onClick: (quizList: String) -> Unit) {
             .border(1.dp, Color(0xFF6200EE)), contentAlignment = Alignment.BottomCenter
     ) {
         Text(
-            text = quizList.name.toString(),
+            text = quizUiState.name.toString(),
             fontSize = 18.sp,
             color = Color.Black,
             modifier = Modifier.padding(0.dp, 20.dp),
