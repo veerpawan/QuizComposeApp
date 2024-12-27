@@ -20,11 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnboardingScreen(onFinished: () -> Unit) {
+fun OnboardingScreen(navController: NavHostController) {
 
     val pages = listOf(
         OnboardingModel.FirstPage, OnboardingModel.SecondPage, OnboardingModel.ThirdPages
@@ -82,7 +83,9 @@ fun OnboardingScreen(onFinished: () -> Unit) {
                         if (pagerState.currentPage < pages.size - 1) {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
                         } else {
-                            onFinished()
+                            navController.navigate("LoginScreen")
+                            //navController.popBackStack()
+                            //onFinished()
                         }
                     }
                 }
@@ -100,10 +103,9 @@ fun OnboardingScreen(onFinished: () -> Unit) {
 
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun OnboardingScreenPreview() {
-    OnboardingScreen {
-
-    }
-}
+    OnboardingScreen()
+}*/
